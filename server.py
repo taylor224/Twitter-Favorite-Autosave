@@ -67,7 +67,8 @@ class listener(tweepy.StreamListener):
             for media in media_list:
                 # Only download the photo
                 if not media.get('type') == 'photo':
-                    continue
+                    # prevent to unfavorite
+                    return True
 
                 file_name = today_date + '_' + str(media.get('id')) + '_wait'
                 urllib.request.urlretrieve(media.get('media_url'), os.path.join(image_path, file_name))
@@ -84,7 +85,6 @@ class listener(tweepy.StreamListener):
             try:
                 os.rename(os.path.join(image_path, file), os.path.join(image_path, file.replace('_wait', '')))
             except:
-                raise
                 print('Unfavorited tweet. Will not process - ' + str(status.get('target_object').get('id')))
                 return True
 
