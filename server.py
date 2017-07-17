@@ -60,6 +60,10 @@ class listener(tweepy.StreamListener):
         file_list = []
         today_date = datetime.datetime.now().strftime("%Y%m%d")
 
+        # Pass the plain text tweet
+        if not status.get('target_object').get('extended_entities'):
+            return True
+
         if len(status.get('target_object').get('extended_entities').get('media')) > 0:
             media_list = status.get('target_object').get('extended_entities').get('media')
 
@@ -76,7 +80,7 @@ class listener(tweepy.StreamListener):
         else:
             # If not photo tweet, prevent to unfavorite
             return True
-                
+
         print('File saved. wait - ' + str(status.get('target_object').get('id')))
 
         # Wait the confirm the favorite. Prevent to saving media of unfavorited tweets.
