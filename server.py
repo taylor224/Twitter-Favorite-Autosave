@@ -73,7 +73,10 @@ class listener(tweepy.StreamListener):
                 file_name = today_date + '_' + str(media.get('id')) + '_wait'
                 urllib.request.urlretrieve(media.get('media_url'), os.path.join(image_path, file_name))
                 file_list.append(file_name)
-
+        else:
+            # If not photo tweet, prevent to unfavorite
+            return True
+                
         print('File saved. wait - ' + str(status.get('target_object').get('id')))
 
         # Wait the confirm the favorite. Prevent to saving media of unfavorited tweets.
